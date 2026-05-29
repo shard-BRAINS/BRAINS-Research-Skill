@@ -1,21 +1,74 @@
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/shard-BRAINS/.github/main/profile/brand-mark-dark-bg.png">
+  <img alt="BRAINS" src="https://raw.githubusercontent.com/shard-BRAINS/.github/main/profile/brand-mark-light-bg.png" width="220">
+</picture>
+
 # BRAINS Research Skill
+
+### A Claude Code skill for curating the BRAINS research library — extract, dedupe, categorise, file.
+
+<br />
+
+[![Version](https://img.shields.io/badge/version-v1.0.0-D99518?style=for-the-badge&labelColor=0A0A0A)](CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-stable-D99518?style=for-the-badge&labelColor=0A0A0A)](STATUS.yml)
+[![Python](https://img.shields.io/badge/python-3.10%2B-D99518?style=for-the-badge&logo=python&logoColor=FFFFFF&labelColor=0A0A0A)](#install)
+[![Licence](https://img.shields.io/badge/licence-MIT-0A0A0A?style=for-the-badge&labelColor=D99518)](LICENSE)
+[![Discord](https://img.shields.io/badge/Discord-Community-5865F2?style=for-the-badge&logo=discord&logoColor=FFFFFF&labelColor=0A0A0A)](https://discord.gg/BEmTXXscBr)
+[![Incubator](https://img.shields.io/badge/BRAINS-Incubator-4DA8FF?style=for-the-badge&labelColor=0A0A0A)](https://github.com/shard-BRAINS)
+
+<br />
+
+[Install ↓](#install) · [Pipeline ↓](#pipeline) · [Commands ↓](#commands) · [Configuration ↓](#configuration) · [Taxonomy ↓](#the-locked-taxonomy)
+
+</div>
+
+---
 
 A Claude Code skill that maintains the BRAINS research library — a curated, categorised corpus of PDFs covering AI, neurodiversity, ethics, mental health, and related domains. Runs the inbox-to-library pipeline (extract → dedupe → categorise → rename → file → append catalog) against a locked 10-category taxonomy.
 
-**An Incubator project from BRAINS — built by neurodivergent minds, for neurodivergent people.**
+> **Reliable, affirming, inclusive.**
+
+**An Incubator project from [BRAINS](https://github.com/shard-BRAINS) — built by neurodivergent minds, for neurodivergent people.**
 
 ---
 
-## Status
+## Pipeline
 
-v1.0.0 — initial release. Two slash commands: `/brains-research-process` (ingest) and `/brains-research-status` (read-only summary).
+```mermaid
+flowchart LR
+    INBOX["<b>Inbox</b><br/><span style='font-size:11px'>new PDFs<br/>'to be reviwed' folder</span>"]:::inbox
+    EXTRACT["<b>Extract</b><br/><span style='font-size:11px'>first 2 pages<br/>≤3000 chars</span>"]:::process
+    DEDUPE["<b>Dedupe</b><br/><span style='font-size:11px'>against _catalog.csv</span>"]:::process
+    CATEGORISE["<b>Categorise</b><br/><span style='font-size:11px'>locked 10-category<br/>taxonomy</span>"]:::process
+    RENAME["<b>Rename</b><br/><span style='font-size:11px'>canonical filename</span>"]:::process
+    FILE["<b>File</b><br/><span style='font-size:11px'>'Completed Review/'</span>"]:::output
+    CATALOG["<b>Catalog</b><br/><span style='font-size:11px'>append row to<br/>_catalog.csv</span>"]:::output
+    DUPES["<b>_duplicates/</b><br/><span style='font-size:11px'>quarantined</span>"]:::dupe
+
+    INBOX --> EXTRACT --> DEDUPE
+    DEDUPE -->|duplicate| DUPES
+    DEDUPE -->|new| CATEGORISE --> RENAME --> FILE --> CATALOG
+
+    classDef inbox fill:#FFFFFF,stroke:#7A7A7A,stroke-width:2px,color:#0A0A0A
+    classDef process fill:#D99518,stroke:#0A0A0A,stroke-width:2px,color:#0A0A0A
+    classDef output fill:#2A8B91,stroke:#0A0A0A,stroke-width:2px,color:#FFFFFF
+    classDef dupe fill:#F5F5F5,stroke:#7A7A7A,stroke-width:1px,stroke-dasharray:5 5,color:#1A1A1A
+```
+
+Idempotent at every step: re-running over the same inbox is safe. The catalog is append-only; the taxonomy is locked.
 
 ---
 
-## What it does
+## Commands
 
-- **`/brains-research-process`** — full ingest workflow. Drops new PDFs into the inbox, runs extract → dedupe → categorise → rename → file, appends one row per paper to `_catalog.csv`. **(live)**
-- **`/brains-research-status`** — read-only summary: total catalogued, count by category, recent additions, inbox and duplicate counts, plus an integrity check (catalog rows pointing at missing files; files on disk not in the catalog). **(live)**
+| Command | What it does | Status |
+|---|---|---|
+| `/brains-research-process` | Full ingest workflow: extract → dedupe → categorise → rename → file → append catalog | ![live](https://img.shields.io/badge/-live-D99518?style=flat-square&labelColor=0A0A0A) |
+| `/brains-research-status` | Read-only summary: total catalogued, count by category, recent additions, inbox + duplicate counts, integrity check | ![live](https://img.shields.io/badge/-live-D99518?style=flat-square&labelColor=0A0A0A) |
+
+The integrity check surfaces both directions of drift: catalog rows pointing at files that no longer exist, and PDFs on disk that the catalog doesn't know about.
 
 ---
 
@@ -23,18 +76,20 @@ v1.0.0 — initial release. Two slash commands: `/brains-research-process` (inge
 
 ### One-line installers (recommended)
 
-**Windows (Command Prompt or PowerShell):**
+**Windows** (Command Prompt or PowerShell):
+
 ```
 .\install\install.cmd
 ```
 
-This wrapper handles PowerShell's default execution policy automatically — no system setting changed. If you would rather invoke PowerShell directly:
+The wrapper handles PowerShell's default execution policy automatically — no system setting changed. To invoke PowerShell directly:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\install\install.ps1
 ```
 
 **macOS / Linux:**
+
 ```bash
 bash install/install.sh
 ```
@@ -46,26 +101,24 @@ bash install/install.sh
 git clone https://github.com/shard-BRAINS/BRAINS-Research-Skill.git
 cd BRAINS-Research-Skill
 
-# 2. Create a virtual environment
+# 2. Create + activate a virtual environment
 python -m venv .venv
-
-# 3. Activate it
 #    Windows:
 .venv\Scripts\activate
 #    macOS / Linux:
 source .venv/bin/activate
 
-# 4. Install
+# 3. Install with dev dependencies
 pip install -e ".[dev]"
 
-# 5. Copy config.json.example to config.json and edit research_root
+# 4. Copy config and set research_root
 cp config.json.example config.json
 ```
 
-Install the skill bundle for Claude Code — copy or symlink:
+**Install the skill bundle for Claude Code:**
 
 ```bash
-# Copy
+# Copy (most users)
 cp -r . ~/.claude/skills/brains-research/
 
 # Symlink (edits take effect immediately)
@@ -98,7 +151,9 @@ Edit `config.json` to point `research_root` at your Research folder. The default
 
 ## The locked taxonomy
 
-See `references/taxonomy.md`. The ten categories are doctrine — not configuration. The skill will refuse to silently invent a new category; it asks the user first.
+Ten categories. See [`references/taxonomy.md`](references/taxonomy.md) for the full definitions. **The taxonomy is doctrine, not configuration** — the skill will refuse to silently invent a new category. If a paper doesn't fit, it asks the user to confirm a re-categorisation or to extend the taxonomy explicitly.
+
+This is deliberate. The library's value is in its consistent shape over time; a drifting taxonomy is a broken library.
 
 ---
 
@@ -110,6 +165,41 @@ pytest
 
 ---
 
+## Where this fits in BRAINS
+
+This is a **BRAINS Incubator** project — internal infrastructure that keeps the team's research base curated, consistent, and queryable across many sessions and many contributors. It pairs naturally with the rest of the BRAINS toolkit: research feeds the weekly intelligence brief, the brand methodology, and the certification rubric work.
+
+| | |
+|---|---|
+| ![Incubator](https://img.shields.io/badge/BRAINS-Incubator-4DA8FF?style=flat-square&labelColor=0A0A0A) | New projects, partnerships, prototypes — see the [BRAINS org page](https://github.com/shard-BRAINS) |
+| ![Resume](https://img.shields.io/badge/-BRAINS--resume--skill-D99518?style=flat-square&labelColor=0A0A0A) | Sister skill — [ND-aware résumé toolkit](https://github.com/shard-BRAINS/BRAINS-resume-skill) |
+| ![BuildPlatform](https://img.shields.io/badge/-BRAINS--build--platform-D99518?style=flat-square&labelColor=0A0A0A) | Companion delivery tooling — [agentic end-to-end builds](https://github.com/shard-BRAINS/BRAINS-build-platform) |
+| ![Discord](https://img.shields.io/badge/-Discord-5865F2?style=flat-square&logo=discord&logoColor=FFFFFF&labelColor=0A0A0A) | Join the BRAINS Community — [discord.gg/BEmTXXscBr](https://discord.gg/BEmTXXscBr) |
+
+If you'd like to use the skill on your own research collection, or contribute, see the Incubator application process at the [org page](https://github.com/shard-BRAINS#apply-to-join-the-incubator), or jump straight into [the Discord](https://discord.gg/BEmTXXscBr).
+
+---
+
+## Contributing
+
+Contributions are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a pull request — it covers identity-first language requirements, the code of conduct, and how to propose new taxonomy categories or pipeline steps.
+
+---
+
 ## Licence
 
-MIT. See `LICENSE`.
+MIT — see [LICENSE](LICENSE).
+
+---
+
+<div align="center">
+
+<br />
+
+**Built by neurodivergent minds, for neurodivergent people.**
+
+<br />
+
+[![Made by](https://img.shields.io/badge/built%20by-neurodivergent%20minds-0A0A0A?style=for-the-badge&labelColor=D99518)](https://brainscertified.com)
+
+</div>
