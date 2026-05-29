@@ -1,0 +1,14 @@
+name: brains-research
+version: 1.0.0
+released: 2026-05-29
+status: stable
+supported_platforms:
+  - Windows 10/11 (PowerShell, Command Prompt)
+  - macOS (bash, zsh)
+  - Linux (bash)
+python: ">=3.10"
+dependencies:
+  - pypdf>=4.0
+commands:
+  - /brains-research-process
+  - /brains-research-status
