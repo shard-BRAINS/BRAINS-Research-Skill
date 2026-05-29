@@ -98,8 +98,8 @@ bash install/install.sh
 
 ```bash
 # 1. Clone
-git clone https://github.com/shard-BRAINS/BRAINS-Research-Skill.git
-cd BRAINS-Research-Skill
+git clone https://github.com/shard-BRAINS/BRAINS-research-skill.git
+cd BRAINS-research-skill
 
 # 2. Create + activate a virtual environment
 python -m venv .venv
