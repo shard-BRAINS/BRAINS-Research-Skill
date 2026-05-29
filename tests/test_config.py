@@ -62,6 +62,29 @@ def test_load_config_accepts_utf8_bom(tmp_path, mock_research_root):
     assert cfg.research_root == mock_research_root
 
 
+def test_load_config_optional_content_drafts_dir(tmp_path, mock_research_root):
+    """content_drafts_dir is optional; when present it is loaded as a Path."""
+    cfg = tmp_path / "config.json"
+    cfg.write_text(json.dumps({
+        "research_root": str(mock_research_root),
+        "inbox_dir": "to be reviwed",
+        "completed_dir": "Completed Review",
+        "duplicates_dir": "_duplicates",
+        "catalog_csv": "_catalog.csv",
+        "extract_pages": 2,
+        "extract_max_chars": 3000,
+        "content_drafts_dir": str(tmp_path / "drafts"),
+    }))
+    loaded = load_config(cfg)
+    assert loaded.content_drafts_dir == tmp_path / "drafts"
+
+
+def test_load_config_missing_content_drafts_dir_is_none(config_file):
+    """When content_drafts_dir is absent, the attribute is None."""
+    loaded = load_config(config_file)
+    assert loaded.content_drafts_dir is None
+
+
 def test_load_config_default_location(monkeypatch, tmp_path, mock_research_root):
     """If no path passed, the env var BRAINS_RESEARCH_CONFIG steers the lookup."""
     cfg_path = tmp_path / "config.json"

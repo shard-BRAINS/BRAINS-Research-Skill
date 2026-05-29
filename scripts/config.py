@@ -25,6 +25,7 @@ class Config:
     catalog_csv: Path
     extract_pages: int
     extract_max_chars: int
+    content_drafts_dir: Path | None = None
 
 
 def _default_config_path() -> Path:
@@ -51,6 +52,10 @@ def load_config(path: Path | None = None) -> Config:
     if not research_root.exists():
         raise ConfigError(f"research_root does not exist: {research_root}")
 
+    content_drafts_dir = None
+    if data.get("content_drafts_dir"):
+        content_drafts_dir = Path(data["content_drafts_dir"])
+
     return Config(
         research_root=research_root,
         inbox_dir=research_root / data["inbox_dir"],
@@ -59,4 +64,5 @@ def load_config(path: Path | None = None) -> Config:
         catalog_csv=research_root / data["catalog_csv"],
         extract_pages=int(data["extract_pages"]),
         extract_max_chars=int(data["extract_max_chars"]),
+        content_drafts_dir=content_drafts_dir,
     )
