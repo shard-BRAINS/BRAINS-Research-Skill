@@ -12,8 +12,8 @@ Thanks for your interest. BRAINS is an Incubator and Trust focused on neuro-affi
 ## Development setup
 
 ```bash
-git clone https://github.com/shard-BRAINS/BRAINS-Research-Skill.git
-cd BRAINS-Research-Skill
+git clone https://github.com/shard-BRAINS/BRAINS-research-skill.git
+cd BRAINS-research-skill
 python -m venv .venv
 source .venv/bin/activate  # or .venv\Scripts\activate on Windows
 pip install -e ".[dev]"
