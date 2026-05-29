@@ -1,0 +1,30 @@
+# Per-machine config
+config.json
+
+# Research corpus — never committed
+research-data/to be reviwed/*
+research-data/Completed Review/*
+research-data/_duplicates/*
+!research-data/to be reviwed/.gitkeep
+!research-data/Completed Review/.gitkeep
+!research-data/_duplicates/.gitkeep
+_catalog.csv
+_rename_plan.json
+_extract_all.json
+_backup/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

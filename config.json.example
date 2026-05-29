@@ -1,0 +1,9 @@
+{
+  "research_root": "\\\\192.168.1.101\\Singularity_Backup\\Research",
+  "inbox_dir": "to be reviwed",
+  "completed_dir": "Completed Review",
+  "duplicates_dir": "_duplicates",
+  "catalog_csv": "_catalog.csv",
+  "extract_pages": 2,
+  "extract_max_chars": 3000
+}
