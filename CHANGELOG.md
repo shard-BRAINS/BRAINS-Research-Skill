@@ -5,6 +5,25 @@ All notable changes to BRAINS Research Skill will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] — 2026-05-29
+
+### Added
+- `/brains-research-review` slash command — per-paper review workflow producing an objective summary, an analytical review, BRAINS commentary, and optional LinkedIn and Bluesky drafts handed off to `brains-content`.
+- `scripts/extract_full.py` — full-text PDF extraction with per-paper JSON cache, mtime-invalidated.
+- `scripts/review.py` — paper selection (filename / partial / category / picker), `_reviews.csv` append-only ledger I/O, `.review.md` writer, content-draft handoff.
+- `references/review-template.md`, `references/linkedin-template.md`, `references/bluesky-template.md` — section guides loaded on demand during the review flow.
+- Optional `content_drafts_dir` config key (defaults to Matthew's BRAINS content folder). The review command writes `CT00X.md` drafts and appends to `content_calendar.csv`. If the directory is unreachable, the review still completes; only the draft handoff is skipped.
+- `_reviews.csv` ledger on the share, 13 columns: `new_path, category, paper_year, paper_author, paper_title, review_path, review_date, focus_criteria, linkedin_draft_id, bluesky_draft_id, bias_flags, tags, next_action`. Append-only.
+- Stub `.review.md` + `bias_flags=scanned_pdf` row for scanned image-only PDFs — leaves an audit trail.
+- Test fixtures and test files (`tests/test_extract_full.py`, `tests/test_review.py`, two new `test_config.py` cases). New `reportlab` dev dependency for generating the multi-page fixture PDF. 43/43 tests passing.
+
+### Changed
+- `scripts/config.py` — `Config` dataclass gains optional `content_drafts_dir: Path | None`.
+
+### Migration notes
+- v1.0.0 users upgrade by `git pull` and re-running `install.ps1` (or platform equivalent).
+- Existing `_catalog.csv` and v1.0.0 commands are untouched.
+
 ## [1.0.0] — 2026-05-29
 
 ### Added

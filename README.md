@@ -8,7 +8,7 @@ A Claude Code skill that maintains the BRAINS research library — a curated, ca
 
 ## Status
 
-v1.0.0 — initial release. Two slash commands: `/brains-research-process` (ingest) and `/brains-research-status` (read-only summary).
+v1.1.0 — adds `/brains-research-review`. Three slash commands now live.
 
 ---
 
@@ -16,6 +16,7 @@ v1.0.0 — initial release. Two slash commands: `/brains-research-process` (inge
 
 - **`/brains-research-process`** — full ingest workflow. Drops new PDFs into the inbox, runs extract → dedupe → categorise → rename → file, appends one row per paper to `_catalog.csv`. **(live)**
 - **`/brains-research-status`** — read-only summary: total catalogued, count by category, recent additions, inbox and duplicate counts, plus an integrity check (catalog rows pointing at missing files; files on disk not in the catalog). **(live)**
+- **`/brains-research-review`** — per-paper review workflow. Asks for optional focus criteria, then produces an objective summary, an analytical review (strengths, weaknesses, methodology flags, candidate quotes), and BRAINS-specific commentary via `brains-brand`. Optionally drafts a LinkedIn long post and a Bluesky short post (≤300 chars), handed off to `brains-content`. Persists to `Reviews/<Category>/<stem>.review.md` and `_reviews.csv`. **(live)**
 
 ---
 
