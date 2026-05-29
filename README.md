@@ -183,7 +183,8 @@ This is a **BRAINS Incubator** project — internal infrastructure that keeps th
 | ![BuildPlatform](https://img.shields.io/badge/-BRAINS--build--platform-D99518?style=flat-square&labelColor=0A0A0A) | Companion delivery tooling — [agentic end-to-end builds](https://github.com/shard-BRAINS/BRAINS-build-platform) |
 | ![Discord](https://img.shields.io/badge/-Discord-5865F2?style=flat-square&logo=discord&logoColor=FFFFFF&labelColor=0A0A0A) | Join the BRAINS Community — [discord.gg/BEmTXXscBr](https://discord.gg/BEmTXXscBr) |
 
-If you'd like to use the skill on your own research collection, or contribute, see the Incubator application process at the [org page](https://github.com/shard-BRAINS#apply-to-join-the-incubator), or jump straight into [the Discord](https://discord.gg/BEmTXXscBr).
+| ![Bluesky](https://img.shields.io/badge/-Bluesky-D99518?style=flat-square&logo=bluesky&logoColor=FFFFFF&labelColor=0A0A0A) | Follow updates — [@brainscertified.com on Bluesky](https://bsky.app/profile/brainscertified.com) |
+If you'd like to use the skill on your own research collection, or contribute, see the Incubator application process at the [org page](https://github.com/shard-BRAINS#apply-to-join-the-incubator), or jump straight into [the Discord](https://discord.gg/BEmTXXscBr), or follow updates on [Bluesky](https://bsky.app/profile/brainscertified.com).
 
 ---
 
