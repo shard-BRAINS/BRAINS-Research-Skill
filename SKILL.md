@@ -1,7 +1,7 @@
 ---
 name: brains-research
 description: Use when Matthew says "process research", "catalogue these papers", "new PDFs", or drops files into the BRAINS research inbox. Maintains the BRAINS research library — extracts, dedupes, categorises, renames, and files PDFs into a locked 10-category taxonomy, appending each entry to _catalog.csv. Read-only status command also available. A BRAINS Incubator project.
-version: 1.0.0
+version: 1.1.0
 license: MIT
 ---
 
@@ -31,6 +31,12 @@ This section describes the behavioural contract — how Claude should behave acr
 
 **Confirm before destructive moves.** The pipeline reports its plan before applying it. If the user says "dry run" or "preview", run with `--dry-run` and report what would have moved.
 
+**Reviews are append-history.** A paper can be re-reviewed; the `.review.md` is overwritten with the latest analysis but a new row is appended to `_reviews.csv` so the history is preserved.
+
+**No publishing.** LinkedIn and Bluesky outputs from `/brains-research-review` are drafts handed off to `brains-content`. The skill never posts.
+
+**Brand fallback.** If `brains-brand` is not installed, `/brains-research-review` writes a generic neuro-affirming commentary and notes the fallback in the review file. The skill still works for non-BRAINS users.
+
 ---
 
 ## Available commands
@@ -39,6 +45,7 @@ This section describes the behavioural contract — how Claude should behave acr
 |---|---|
 | `/brains-research-process` | The full ingest workflow. Extract → dedupe → categorise → rename → file → append catalog. |
 | `/brains-research-status` | Read-only summary: counts by category, recent additions, integrity check. |
+| `/brains-research-review` | Per-paper review: objective summary, analytical review, BRAINS commentary, optional LinkedIn + Bluesky drafts handed off to `brains-content`. Persists to `Reviews/<Category>/<stem>.review.md` and `_reviews.csv`. |
 
 ---
 
@@ -70,6 +77,9 @@ When deciding category, filename, organisation abbreviation, or edge-case treatm
 - `references/filename-rules.md`
 - `references/org-abbreviations.md`
 - `references/edge-cases.md`
+- `references/review-template.md` (loaded during `/brains-research-review`)
+- `references/linkedin-template.md` (loaded during `/brains-research-review` if a LinkedIn draft is requested)
+- `references/bluesky-template.md` (loaded during `/brains-research-review` if a Bluesky draft is requested)
 
 The reference files are the canonical source for this skill's rules. Do not paraphrase them.
 

@@ -5,5 +5,6 @@
   "duplicates_dir": "_duplicates",
   "catalog_csv": "_catalog.csv",
   "extract_pages": 2,
-  "extract_max_chars": 3000
+  "extract_max_chars": 3000,
+  "content_drafts_dir": "C:\\Users\\matth\\Proton Drive\\Matthew Gell\\Shared with me\\06. Operations\\Admin\\03_Content"
 }
