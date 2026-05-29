@@ -64,11 +64,12 @@ foreach ($d in @("scripts", "references", "commands")) {
 }
 Write-Host "Skill installed at: $skillDir"
 
-# 5. Install slash commands
+# 5. Install slash commands (copy every brains-research-*.md from commands/)
 $cmdsDir = Join-Path $ClaudeHome "commands"
 New-Item -ItemType Directory -Force -Path $cmdsDir | Out-Null
-Copy-Item -Force (Join-Path $RepoRoot "commands\brains-research-process.md") $cmdsDir
-Copy-Item -Force (Join-Path $RepoRoot "commands\brains-research-status.md") $cmdsDir
+Get-ChildItem -Path (Join-Path $RepoRoot "commands") -Filter "brains-research-*.md" | ForEach-Object {
+    Copy-Item -Force $_.FullName $cmdsDir
+}
 Write-Host "Slash commands installed at: $cmdsDir"
 
 Write-Host ""

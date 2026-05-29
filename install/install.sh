@@ -52,10 +52,9 @@ mkdir -p "$SKILL_DIR"
 rsync -a --exclude '.venv' --exclude '.git' --exclude 'research-data' --exclude 'tests' "$REPO_ROOT/" "$SKILL_DIR/"
 echo "Skill installed at: $SKILL_DIR"
 
-# 5. Slash commands
+# 5. Slash commands (copy every brains-research-*.md from commands/)
 mkdir -p "$CLAUDE_HOME/commands"
-cp "$REPO_ROOT/commands/brains-research-process.md" "$CLAUDE_HOME/commands/"
-cp "$REPO_ROOT/commands/brains-research-status.md" "$CLAUDE_HOME/commands/"
+cp "$REPO_ROOT/commands/"brains-research-*.md "$CLAUDE_HOME/commands/"
 echo "Slash commands installed at: $CLAUDE_HOME/commands"
 
 echo ""
