@@ -39,7 +39,7 @@ def load_config(path: Path | None = None) -> Config:
     if not cfg_path.exists():
         raise ConfigError(f"config.json not found at {cfg_path}")
     try:
-        data = json.loads(cfg_path.read_text(encoding="utf-8"))
+        data = json.loads(cfg_path.read_text(encoding="utf-8-sig"))
     except json.JSONDecodeError as e:
         raise ConfigError(f"config.json malformed: {e}") from e
 

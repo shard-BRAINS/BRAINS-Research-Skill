@@ -45,6 +45,23 @@ def test_load_config_unreachable_root_raises(tmp_path):
         load_config(bad)
 
 
+def test_load_config_accepts_utf8_bom(tmp_path, mock_research_root):
+    """Windows PowerShell 5.1 writes UTF-8 with BOM by default — config loader must accept it."""
+    cfg_path = tmp_path / "config.json"
+    payload = json.dumps({
+        "research_root": str(mock_research_root),
+        "inbox_dir": "to be reviwed",
+        "completed_dir": "Completed Review",
+        "duplicates_dir": "_duplicates",
+        "catalog_csv": "_catalog.csv",
+        "extract_pages": 2,
+        "extract_max_chars": 3000,
+    })
+    cfg_path.write_bytes(b"\xef\xbb\xbf" + payload.encode("utf-8"))
+    cfg = load_config(cfg_path)
+    assert cfg.research_root == mock_research_root
+
+
 def test_load_config_default_location(monkeypatch, tmp_path, mock_research_root):
     """If no path passed, the env var BRAINS_RESEARCH_CONFIG steers the lookup."""
     cfg_path = tmp_path / "config.json"
